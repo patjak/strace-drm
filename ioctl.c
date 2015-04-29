@@ -182,7 +182,7 @@ hiddev_decode_number(unsigned int arg)
 }
 
 int
-ioctl_decode_command_number(unsigned int arg)
+ioctl_decode_command_number(struct tcb *tcp, unsigned int arg)
 {
 	switch (_IOC_TYPE(arg)) {
 		case 'E':
@@ -204,6 +204,8 @@ ioctl_decode_command_number(unsigned int arg)
 				return 1;
 			}
 			return 0;
+		case 'd':
+			return drm_decode_number(tcp, arg);
 		case 'j':
 			if (_IOC_DIR(arg) == _IOC_READ && _IOC_NR(arg) == 0x13) {
 				tprintf("JSIOCGNAME(%u)", _IOC_SIZE(arg));
@@ -243,6 +245,8 @@ ioctl_decode(struct tcb *tcp, unsigned int code, long arg)
 	case 0x22:
 		return scsi_ioctl(tcp, code, arg);
 #endif
+	case 'd':
+		return drm_ioctl(tcp, code, arg);
 	case 'L':
 		return loop_ioctl(tcp, code, arg);
 	case 'M':
