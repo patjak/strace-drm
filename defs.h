@@ -612,6 +612,9 @@ extern const char *sprint_open_modes(int);
 extern void print_seccomp_filter(struct tcb *tcp, unsigned long);
 
 extern int block_ioctl(struct tcb *, const unsigned int, long);
+#if defined(HAVE_DRM_H) || defined(HAVE_DRM_DRM_H)
+extern int drm_ioctl(struct tcb *, const unsigned int, long);
+#endif
 extern int evdev_ioctl(struct tcb *, const unsigned int, long);
 extern int loop_ioctl(struct tcb *, const unsigned int, long);
 extern int mtd_ioctl(struct tcb *, const unsigned int, long);

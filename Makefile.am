@@ -42,6 +42,7 @@ strace_SOURCES =	\
 	count.c		\
 	desc.c		\
 	dirent.c	\
+	drm.c		\
 	epoll.c		\
 	evdev.c		\
 	eventfd.c	\

@@ -248,6 +248,10 @@ ioctl_decode(struct tcb *tcp)
 	case 0x22:
 		return scsi_ioctl(tcp, code, arg);
 #endif
+#if defined(HAVE_DRM_H) || defined(HAVE_DRM_DRM_H)
+	case 'd':
+		return drm_ioctl(tcp, code, arg);
+#endif
 	case 'L':
 		return loop_ioctl(tcp, code, arg);
 	case 'M':
