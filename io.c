@@ -391,7 +391,7 @@ SYS_FUNC(ioctl)
 	if (entering(tcp)) {
 		printfd(tcp, tcp->u_arg[0]);
 		tprints(", ");
-		if (!ioctl_decode_command_number(tcp->u_arg[1])) {
+		if (!ioctl_decode_command_number(tcp, tcp->u_arg[1])) {
 			iop = ioctl_lookup(tcp->u_arg[1]);
 			if (iop) {
 				tprints(iop->symbol);

@@ -181,8 +181,14 @@ hiddev_decode_number(unsigned int arg)
 	return 0;
 }
 
+static int
+drm_decode_number(struct tcb *tcp, unsigned int arg)
+{
+	return 0;
+}
+
 int
-ioctl_decode_command_number(unsigned int arg)
+ioctl_decode_command_number(struct tcb *tcp, unsigned int arg)
 {
 	switch (_IOC_TYPE(arg)) {
 		case 'E':
@@ -216,6 +222,8 @@ ioctl_decode_command_number(unsigned int arg)
 				return 1;
 			}
 			return 0;
+		case 'd':
+			return drm_decode_number(tcp, arg);
 		default:
 			return 0;
 	}
@@ -252,6 +260,8 @@ ioctl_decode(struct tcb *tcp, unsigned int code, long arg)
 		return ubi_ioctl(tcp, code, arg);
 	case 'V':
 		return v4l2_ioctl(tcp, code, arg);
+	case 'd':
+		return drm_ioctl(tcp, code, arg);
 	case '=':
 		return ptp_ioctl(tcp, code, arg);
 #ifdef HAVE_LINUX_INPUT_H
@@ -284,6 +294,7 @@ ioctl_decode(struct tcb *tcp, unsigned int code, long arg)
  *   d	sys/des.h			(possible overlap)
  *   d	vax/dkio.h			(possible overlap)
  *   d	vaxuba/rxreg.h			(possible overlap)
+ *   d  drm/drm.h
  *   f	sys/filio.h
  *   g	sunwindow/win_ioctl.h		-no overlap-
  *   g	sunwindowdev/winioctl.c		!no manifest constant! -no overlap-

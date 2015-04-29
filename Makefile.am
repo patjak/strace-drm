@@ -121,6 +121,7 @@ strace_SOURCES =	\
 	utime.c		\
 	utimes.c	\
 	v4l2.c		\
+	drm.c		\
 	vsprintf.c	\
 	wait.c		\
 	xattr.c

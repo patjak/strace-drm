@@ -559,7 +559,7 @@ extern const struct_ioctlent *ioctl_lookup(const unsigned int);
 extern const struct_ioctlent *ioctl_next_match(const struct_ioctlent *);
 extern void ioctl_print_code(const unsigned int);
 extern int ioctl_decode(struct tcb *, const unsigned int, long);
-extern int ioctl_decode_command_number(const unsigned int);
+extern int ioctl_decode_command_number(struct tcb *, const unsigned int);
 extern int block_ioctl(struct tcb *, const unsigned int, long);
 extern int evdev_ioctl(struct tcb *, const unsigned int, long);
 extern int loop_ioctl(struct tcb *, const unsigned int, long);
@@ -571,6 +571,10 @@ extern int sock_ioctl(struct tcb *, const unsigned int, long);
 extern int term_ioctl(struct tcb *, const unsigned int, long);
 extern int ubi_ioctl(struct tcb *, const unsigned int, long);
 extern int v4l2_ioctl(struct tcb *, const unsigned int, long);
+
+extern int drm_is_priv(const unsigned int);
+extern int drm_is_driver(struct tcb *tcp, const char *name);
+extern int drm_ioctl(struct tcb *, const unsigned int, long);
 
 extern int tv_nz(const struct timeval *);
 extern int tv_cmp(const struct timeval *, const struct timeval *);
