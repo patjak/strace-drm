@@ -870,6 +870,11 @@ fi
 AM_CONDITIONAL([USE_LIBUNWIND], [test "x$use_libunwind" = xyes])
 AC_MSG_RESULT([$use_libunwind])
 
+PKG_CHECK_MODULES([LIBDRM], [libdrm],
+		  [CPPFLAGS="$CPPFLAGS $LIBDRM_CFLAGS"
+		   AC_CHECK_HEADERS([drm.h i915_drm.h])],
+		  [AC_CHECK_HEADERS([drm/drm.h drm/i915_drm.h])])
+
 if test "$arch" = mips && test "$no_create" != yes; then
 	mkdir -p linux/mips
 	if $srcdir/linux/mips/genstub.sh linux/mips; then
