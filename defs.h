@@ -614,6 +614,8 @@ extern void print_seccomp_filter(struct tcb *tcp, unsigned long);
 extern int block_ioctl(struct tcb *, const unsigned int, long);
 #if defined(HAVE_DRM_H) || defined(HAVE_DRM_DRM_H)
 extern int drm_ioctl(struct tcb *, const unsigned int, long);
+extern int drm_i915_ioctl(struct tcb *tcp, const unsigned int, long);
+extern int drm_i915_decode_number(struct tcb *, unsigned int);
 #endif
 extern int evdev_ioctl(struct tcb *, const unsigned int, long);
 extern int loop_ioctl(struct tcb *, const unsigned int, long);
