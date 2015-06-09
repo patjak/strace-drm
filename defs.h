@@ -575,6 +575,8 @@ extern int v4l2_ioctl(struct tcb *, const unsigned int, long);
 extern int drm_is_priv(const unsigned int);
 extern int drm_is_driver(struct tcb *tcp, const char *name);
 extern int drm_ioctl(struct tcb *, const unsigned int, long);
+extern int drm_i915_ioctl(struct tcb *, const unsigned int, long);
+extern int drm_i915_decode_number(struct tcb *, unsigned int);
 
 extern int tv_nz(const struct timeval *);
 extern int tv_cmp(const struct timeval *, const struct timeval *);

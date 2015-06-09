@@ -184,6 +184,12 @@ hiddev_decode_number(unsigned int arg)
 static int
 drm_decode_number(struct tcb *tcp, unsigned int arg)
 {
+	/* Check for device specific ioctls */
+	if (drm_is_priv(tcp->u_arg[1])) {
+		if (verbose(tcp) && drm_is_driver(tcp, "i915"))
+			return drm_i915_decode_number(tcp, arg);
+	}
+
 	return 0;
 }
 

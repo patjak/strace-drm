@@ -84,5 +84,11 @@ int drm_is_driver(struct tcb *tcp, const char *name)
 
 int drm_ioctl(struct tcb *tcp, const unsigned int code, long arg)
 {
+	/* Check for device specific ioctls */
+	if (drm_is_priv(tcp->u_arg[1])) {
+		if (verbose(tcp) && drm_is_driver(tcp, "i915"))
+			return drm_i915_ioctl(tcp, code, arg);
+	}
+
 	return 0;
 }
