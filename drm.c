@@ -35,6 +35,9 @@
 
 #define DRM_MAX_NAME_LEN 128
 
+extern int drm_i915_decode_number(struct tcb *tcp, unsigned int arg);
+extern int drm_i915_ioctl(struct tcb *tcp, const unsigned int code, long arg);
+
 struct drm_ioctl_priv {
 	char name[DRM_MAX_NAME_LEN];
 };
@@ -93,11 +96,22 @@ int drm_is_driver(struct tcb *tcp, const char *name)
 
 int drm_decode_number(struct tcb *tcp, unsigned int arg)
 {
+	if (drm_is_priv(tcp->u_arg[1])) {
+		if (verbose(tcp) && drm_is_driver(tcp, "i915"))
+			return drm_i915_decode_number(tcp, arg);
+	}
+
 	return 0;
 }
 
 int drm_ioctl(struct tcb *tcp, const unsigned int code, long arg)
 {
+	/* Check for device specific ioctls */
+	if (drm_is_priv(tcp->u_arg[1])) {
+		if (verbose(tcp) && drm_is_driver(tcp, "i915"))
+			return drm_i915_ioctl(tcp, code, arg);
+	}
+
 	/* Free any allocated private data */
 	if (exiting(tcp) && tcp->priv_data != NULL) {
 		free(tcp->priv_data);
