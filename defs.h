@@ -266,6 +266,13 @@ struct tcb {
 	int u_error;		/* Error code */
 	long scno;		/* System call number */
 	long u_arg[MAX_ARGS];	/* System call arguments */
+
+	/*
+	 * Private data for the decoding functions of the syscall. TCB core does
+	 * _not_ handle allocation / deallocation of this data.
+	 */
+	void *priv_data;
+
 #if defined(LINUX_MIPSN32) || defined(X32)
 	long long ext_arg[MAX_ARGS];
 	long long u_lrval;	/* long long return value */
