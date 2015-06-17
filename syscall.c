@@ -1099,6 +1099,7 @@ trace_syscall_exiting(struct tcb *tcp)
 #endif
 
  ret:
+	free_tcb_priv_data(tcp);
 	tcp->flags &= ~TCB_INSYSCALL;
 	tcp->sys_func_rval = 0;
 	return 0;

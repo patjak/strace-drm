@@ -711,11 +711,25 @@ alloctcb(int pid)
 	error_msg_and_die("bug in alloctcb");
 }
 
+void
+free_tcb_priv_data(struct tcb *tcp)
+{
+	if (tcp->priv_data) {
+		if (tcp->free_priv_data) {
+			tcp->free_priv_data(tcp->priv_data);
+			tcp->free_priv_data = NULL;
+		}
+		tcp->priv_data = NULL;
+	}
+}
+
 static void
 droptcb(struct tcb *tcp)
 {
 	if (tcp->pid == 0)
 		return;
+
+	free_tcb_priv_data(tcp);
 
 #ifdef USE_LIBUNWIND
 	if (stack_trace_enabled) {
