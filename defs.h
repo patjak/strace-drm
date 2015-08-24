@@ -680,6 +680,8 @@ extern void print_seccomp_filter(struct tcb *tcp, unsigned long);
 extern int block_ioctl(struct tcb *, const unsigned int, long);
 extern int drm_ioctl(struct tcb *, const unsigned int, long);
 extern int drm_decode_number(struct tcb *, unsigned int);
+extern int drm_i915_ioctl(struct tcb *tcp, const unsigned int, long);
+extern int drm_i915_decode_number(struct tcb *, unsigned int);
 extern int evdev_ioctl(struct tcb *, const unsigned int, long);
 extern int loop_ioctl(struct tcb *, const unsigned int, long);
 extern int mtd_ioctl(struct tcb *, const unsigned int, long);
