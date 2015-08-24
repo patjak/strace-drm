@@ -218,6 +218,10 @@ ioctl_decode_command_number(struct tcb *tcp)
 				return 1;
 			}
 			return 0;
+#if defined(HAVE_DRM_H) || defined(HAVE_DRM_DRM_H)
+		case 'd':
+			return drm_decode_number(tcp, code);
+#endif
 		default:
 			return 0;
 	}
@@ -247,6 +251,10 @@ ioctl_decode(struct tcb *tcp)
 #ifdef HAVE_SCSI_SG_H
 	case 0x22:
 		return scsi_ioctl(tcp, code, arg);
+#endif
+#if defined(HAVE_DRM_H) || defined(HAVE_DRM_DRM_H)
+	case 'd':
+		return drm_ioctl(tcp, code, arg);
 #endif
 	case 'L':
 		return loop_ioctl(tcp, code, arg);
