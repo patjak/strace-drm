@@ -331,6 +331,10 @@ struct tcb {
 	int u_error;		/* Error code */
 	long scno;		/* System call number */
 	long u_arg[MAX_ARGS];	/* System call arguments */
+
+	void *_priv_data;	/* Private data for syscall decoding functions */
+	void (*_free_priv_data)(void *); /* Callback for freeing priv_data */
+
 #if defined(LINUX_MIPSN32) || defined(X32)
 	long long ext_arg[MAX_ARGS];
 	long long u_lrval;	/* long long return value */
@@ -533,6 +537,10 @@ extern void clear_regs(void);
 extern void get_regs(pid_t pid);
 extern int get_scno(struct tcb *tcp);
 extern const char *syscall_name(long scno);
+
+extern void free_tcb_priv_data(struct tcb *tcp);
+extern int set_tcb_priv_data(struct tcb *tcp, void *priv_data, void (*free_priv_data)(void *));
+extern void *get_tcb_priv_data(struct tcb *tcp);
 
 extern bool is_erestart(struct tcb *);
 extern void temporarily_clear_syserror(struct tcb *);
