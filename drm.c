@@ -103,10 +103,10 @@ static int drm_version(struct tcb *tcp, const unsigned int code, long arg)
 {
 	struct drm_version ver;
 
-	if (exiting(tcp)) {
-		if (umove(tcp, arg, &ver))
-			return RVAL_DECODED;
+	if (umove(tcp, arg, &ver))
+		return 0;
 
+	if (exiting(tcp)) {
 		tprintf(", {version_major=%d, version_minor=%d, version_patchlevel=%d, "
 			"name_len=%lu, name=", ver.version_major,
 			ver.version_minor, ver.version_patchlevel,
@@ -514,7 +514,7 @@ static int drm_mode_create_dumb(struct tcb *tcp, const unsigned int code, long a
 			dumb.width, dumb.height, dumb.bpp, dumb.flags);
 	} else if (exiting(tcp)) {
 		tprintf(", handle=%u, pitch=%u, size=%Lu}", dumb.handle,
-			dumb.pitch, dumb.size);
+			dumb.pitch, (unsigned long long)dumb.size);
 	}
 
 	return RVAL_DECODED | 1;
