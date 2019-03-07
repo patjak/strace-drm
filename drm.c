@@ -70,7 +70,8 @@ static int drm_is_driver(struct tcb *tcp, const char *name)
 MPERS_PRINTER_DECL(int, drm_decode_number, struct tcb *tcp, unsigned int code)
 {
 	if (drm_is_priv(tcp->u_arg[1])) {
-		/* Detection of drm driver with drm_is_driver(...) goes here */
+		if (verbose(tcp) && drm_is_driver(tcp, "i915"))
+			return MPERS_FUNC_NAME(drm_i915_decode_number)(tcp, code);
 	}
 
 	return 0;
@@ -614,7 +615,8 @@ MPERS_PRINTER_DECL(int, drm_ioctl, struct tcb *tcp, const unsigned int code,
 
 	/* Check for device specific ioctls */
 	if (drm_is_priv(tcp->u_arg[1])) {
-		/* Detection of drm driver with drm_is_driver(...) goes here */
+		if (verbose(tcp) && drm_is_driver(tcp, "i915"))
+			return MPERS_FUNC_NAME(drm_i915_ioctl)(tcp, code, arg);
 	} else {
 		switch (code) {
 		case DRM_IOCTL_VERSION:

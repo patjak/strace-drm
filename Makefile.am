@@ -102,6 +102,7 @@ strace_SOURCES =	\
 	dirent64.c	\
 	dm.c		\
 	drm.c		\
+	drm_i915.c	\
 	dyxlat.c	\
 	empty.h		\
 	epoll.c		\
