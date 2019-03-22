@@ -6,8 +6,6 @@
 
 #include "defs.h"
 
-#if defined(HAVE_DRM_H) || defined(HAVE_DRM_DRM_H)
-
 #include <sys/param.h>
 
 #ifdef HAVE_DRM_H
@@ -15,6 +13,54 @@
 #else
 #include <drm/drm.h>
 #endif
+
+#include DEF_MPERS_TYPE(struct_drm_version)
+#include DEF_MPERS_TYPE(struct_drm_set_version)
+#include DEF_MPERS_TYPE(struct_drm_unique)
+#include DEF_MPERS_TYPE(struct_drm_auth)
+#include DEF_MPERS_TYPE(union_drm_wait_vblank)
+#include DEF_MPERS_TYPE(struct_drm_mode_card_res)
+#include DEF_MPERS_TYPE(struct_drm_mode_crtc)
+#include DEF_MPERS_TYPE(struct_drm_mode_cursor)
+#include DEF_MPERS_TYPE(struct_drm_mode_cursor2)
+#include DEF_MPERS_TYPE(struct_drm_mode_crtc_lut)
+#include DEF_MPERS_TYPE(struct_drm_mode_get_encoder)
+#include DEF_MPERS_TYPE(struct_drm_mode_get_connector)
+#include DEF_MPERS_TYPE(struct_drm_mode_get_property)
+#include DEF_MPERS_TYPE(struct_drm_mode_connector_set_property)
+#include DEF_MPERS_TYPE(struct_drm_mode_get_blob)
+#include DEF_MPERS_TYPE(struct_drm_mode_fb_cmd)
+#include DEF_MPERS_TYPE(struct_drm_mode_fb_cmd2)
+#include DEF_MPERS_TYPE(struct_drm_mode_crtc_page_flip)
+#include DEF_MPERS_TYPE(struct_drm_mode_fb_dirty_cmd)
+#include DEF_MPERS_TYPE(struct_drm_mode_create_dumb)
+#include DEF_MPERS_TYPE(struct_drm_mode_map_dumb)
+#include DEF_MPERS_TYPE(struct_drm_mode_destroy_dumb)
+#include DEF_MPERS_TYPE(struct_drm_gem_close)
+
+typedef struct drm_version struct_drm_version;
+typedef struct drm_set_version struct_drm_set_version;
+typedef struct drm_unique struct_drm_unique;
+typedef struct drm_auth struct_drm_auth;
+typedef union drm_wait_vblank union_drm_wait_vblank;
+typedef struct drm_mode_card_res struct_drm_mode_card_res;
+typedef struct drm_mode_crtc struct_drm_mode_crtc;
+typedef struct drm_mode_cursor struct_drm_mode_cursor;
+typedef struct drm_mode_cursor2 struct_drm_mode_cursor2;
+typedef struct drm_mode_crtc_lut struct_drm_mode_crtc_lut;
+typedef struct drm_mode_get_encoder struct_drm_mode_get_encoder;
+typedef struct drm_mode_get_connector struct_drm_mode_get_connector;
+typedef struct drm_mode_get_property struct_drm_mode_get_property;
+typedef struct drm_mode_connector_set_property struct_drm_mode_connector_set_property;
+typedef struct drm_mode_get_blob struct_drm_mode_get_blob;
+typedef struct drm_mode_fb_cmd struct_drm_mode_fb_cmd;
+typedef struct drm_mode_fb_cmd2 struct_drm_mode_fb_cmd2;
+typedef struct drm_mode_crtc_page_flip struct_drm_mode_crtc_page_flip;
+typedef struct drm_mode_fb_dirty_cmd struct_drm_mode_fb_dirty_cmd;
+typedef struct drm_mode_create_dumb struct_drm_mode_create_dumb;
+typedef struct drm_mode_map_dumb struct_drm_mode_map_dumb;
+typedef struct drm_mode_destroy_dumb struct_drm_mode_destroy_dumb;
+typedef struct drm_gem_close struct_drm_gem_close;
 
 #define DRM_MAX_NAME_LEN 128
 
@@ -79,7 +125,7 @@ MPERS_PRINTER_DECL(int, drm_decode_number, struct tcb *tcp, unsigned int code)
 
 static int drm_version(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_version ver;
+	struct_drm_version ver;
 
 	if (exiting(tcp) && !syserror(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &ver))
@@ -104,7 +150,7 @@ static int drm_version(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_set_version(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_set_version ver;
+	struct_drm_set_version ver;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &ver))
@@ -127,7 +173,7 @@ static int drm_set_version(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_get_unique(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_unique unique;
+	struct_drm_unique unique;
 
 	if (exiting(tcp) && !syserror(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &unique))
@@ -145,7 +191,7 @@ static int drm_get_unique(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_get_magic(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_auth auth;
+	struct_drm_auth auth;
 
 	if (exiting(tcp) && !syserror(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &auth))
@@ -159,7 +205,7 @@ static int drm_get_magic(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_wait_vblank(struct tcb *tcp, const unsigned int code, long arg)
 {
-	union drm_wait_vblank vblank;
+	union_drm_wait_vblank vblank;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &vblank))
@@ -183,7 +229,7 @@ static int drm_wait_vblank(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_mode_get_resources(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_card_res res;
+	struct_drm_mode_card_res res;
 
 	if (exiting(tcp) && !syserror(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &res))
@@ -219,7 +265,7 @@ static void drm_mode_print_modeinfo(struct tcb *tcp, struct drm_mode_modeinfo *i
 
 static int drm_mode_get_crtc(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_crtc crtc;
+	struct_drm_mode_crtc crtc;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &crtc))
@@ -245,7 +291,7 @@ static int drm_mode_get_crtc(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_mode_set_crtc(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_crtc crtc;
+	struct_drm_mode_crtc crtc;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &crtc))
@@ -266,8 +312,7 @@ static int drm_mode_set_crtc(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_mode_cursor(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_cursor cursor;
-
+	struct_drm_mode_cursor cursor;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &cursor))
@@ -284,7 +329,7 @@ static int drm_mode_cursor(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_mode_cursor2(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_cursor2 cursor;
+	struct_drm_mode_cursor2 cursor;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &cursor))
@@ -302,7 +347,7 @@ static int drm_mode_cursor2(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_mode_get_gamma(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_crtc_lut lut;
+	struct_drm_mode_crtc_lut lut;
 
 
 	if (entering(tcp)) {
@@ -320,7 +365,7 @@ static int drm_mode_get_gamma(struct tcb *tcp, const unsigned int code, long arg
 
 static int drm_mode_set_gamma(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_crtc_lut lut;
+	struct_drm_mode_crtc_lut lut;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &lut))
@@ -337,7 +382,7 @@ static int drm_mode_set_gamma(struct tcb *tcp, const unsigned int code, long arg
 
 static int drm_mode_get_encoder(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_get_encoder enc;
+	struct_drm_mode_get_encoder enc;
 
 
 	if (entering(tcp)) {
@@ -360,7 +405,7 @@ static int drm_mode_get_encoder(struct tcb *tcp, const unsigned int code, long a
 
 static int drm_mode_get_connector(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_get_connector con;
+	struct_drm_mode_get_connector con;
 
 	/* We could be very verbose here but keep is simple for now */
 	if (entering(tcp)) {
@@ -390,8 +435,7 @@ static int drm_mode_get_connector(struct tcb *tcp, const unsigned int code, long
 
 static int drm_mode_get_property(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_get_property prop;
-
+	struct_drm_mode_get_property prop;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &prop))
@@ -414,7 +458,7 @@ static int drm_mode_get_property(struct tcb *tcp, const unsigned int code, long 
 
 static int drm_mode_set_property(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_connector_set_property prop;
+	struct_drm_mode_connector_set_property prop;
 
 	if (!umove_or_printaddr(tcp, arg, &prop)) {
 		tprintf(", {value=%Lu, prop_id=%u, connector_id=%u}",
@@ -426,7 +470,7 @@ static int drm_mode_set_property(struct tcb *tcp, const unsigned int code, long 
 
 static int drm_mode_get_prop_blob(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_get_blob blob;
+	struct_drm_mode_get_blob blob;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &blob))
@@ -446,7 +490,7 @@ static int drm_mode_get_prop_blob(struct tcb *tcp, const unsigned int code, long
 
 static int drm_mode_add_fb(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_fb_cmd cmd;
+	struct_drm_mode_fb_cmd cmd;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &cmd))
@@ -466,7 +510,7 @@ static int drm_mode_add_fb(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_mode_add_fb2(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_fb_cmd2 cmd;
+	struct_drm_mode_fb_cmd2 cmd;
 
 	if (entering(tcp)) {
 		if (umove(tcp, arg, &cmd))
@@ -495,7 +539,7 @@ static int drm_mode_add_fb2(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_mode_get_fb(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_fb_cmd cmd;
+	struct_drm_mode_fb_cmd cmd;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &cmd))
@@ -526,7 +570,7 @@ static int drm_mode_rm_fb(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_mode_page_flip(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_crtc_page_flip flip;
+	struct_drm_mode_crtc_page_flip flip;
 
 	if (!umove_or_printaddr(tcp, arg, &flip)) {
 		tprintf(", {crtc_id=%u, fb_id=%u, flags=0x%x, user_data=0x%Lx}",
@@ -538,7 +582,7 @@ static int drm_mode_page_flip(struct tcb *tcp, const unsigned int code, long arg
 
 static int drm_mode_dirty_fb(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_fb_dirty_cmd cmd;
+	struct_drm_mode_fb_dirty_cmd cmd;
 
 	if (!umove_or_printaddr(tcp, arg, &cmd)) {
 		tprintf(", {fb_id=%u, flags=0x%x, color=0x%x, num_clips=%u, "
@@ -551,7 +595,7 @@ static int drm_mode_dirty_fb(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_mode_create_dumb(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_create_dumb dumb;
+	struct_drm_mode_create_dumb dumb;
 
 	if (entering(tcp)) {
 		if (umove_or_printaddr(tcp, arg, &dumb))
@@ -572,7 +616,7 @@ static int drm_mode_create_dumb(struct tcb *tcp, const unsigned int code, long a
 
 static int drm_mode_map_dumb(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_map_dumb dumb;
+	struct_drm_mode_map_dumb dumb;
 
 	if (entering(tcp)) {
 		if (umove(tcp, arg, &dumb))
@@ -590,7 +634,7 @@ static int drm_mode_map_dumb(struct tcb *tcp, const unsigned int code, long arg)
 
 static int drm_mode_destroy_dumb(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_mode_destroy_dumb dumb;
+	struct_drm_mode_destroy_dumb dumb;
 
 	if (!umove_or_printaddr(tcp, arg, &dumb))
 		tprintf(", {handle=%u}", dumb.handle);
@@ -600,7 +644,7 @@ static int drm_mode_destroy_dumb(struct tcb *tcp, const unsigned int code, long 
 
 static int drm_gem_close(struct tcb *tcp, const unsigned int code, long arg)
 {
-	struct drm_gem_close close;
+	struct_drm_gem_close close;
 
 	if (!umove_or_printaddr(tcp, arg, &close))
 		tprintf(", {handle=%u}", close.handle);
@@ -705,5 +749,3 @@ MPERS_PRINTER_DECL(int, drm_ioctl, struct tcb *tcp, const unsigned int code,
 
 	return ret;
 }
-
-#endif /* HAVE_DRM_H || HAVE_DRM_DRM_H */
